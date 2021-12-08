@@ -1,11 +1,12 @@
-function bestSum(targetSum, numbers) {
+function bestSum(targetSum, numbers, memo = []) {
+    if (targetSum in memo) return memo[targetSum]
     if (targetSum === 0) return []
     if (targetSum < 0) return null
 
     let shortestCombination = null
 
     for (let num of numbers) {
-        const remainderResult = bestSum(targetSum - num, numbers)
+        const remainderResult = bestSum(targetSum - num, numbers, memo)
         const currentCombination = remainderResult ?  [...remainderResult, num] : null
         
         if (shortestCombination === null
@@ -14,6 +15,7 @@ function bestSum(targetSum, numbers) {
             shortestCombination = currentCombination
     }
 
+    memo[targetSum] = shortestCombination
     return shortestCombination
 }
 
