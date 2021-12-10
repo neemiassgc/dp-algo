@@ -1,14 +1,17 @@
-function canConstruct(target, wordBank) {
+function canConstruct(target, wordBank, memo = {}) {
     if (target.length === 0) return true
-
+    if (target in memo) return memo[target]
+    
     for (let word of wordBank) {
         if (target.startsWith(word)) {
             const suffix = target.substr(word.length)
-            if(canConstruct(suffix, wordBank))
-                return true
+            memo[target] = canConstruct(suffix, wordBank, memo)
+
+            if (memo[target]) return true
         }
     }
 
+    memo[target] = false
     return false
 }
 
